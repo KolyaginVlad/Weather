@@ -16,11 +16,14 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
         android:fontFamily="@font/merriweather_bold"
         android:text="20 C"
         android:textColor="@color/black"
         android:textSize="40dp"
+        android:gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <ImageView
