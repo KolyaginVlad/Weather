@@ -4,7 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="ru.same.weather.MainActivity">
     <item
-        android:id="@+id/chooseReg"
-        android:title="@string/reg"
+        android:id="@+id/Penza"
+        android:title="Пенза"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/Moscow"
+        android:title="Москва"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Petersburg"
+        android:title="Санкт-Петербург"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Kazan"
+        android:title="Казань"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Novosibirsk"
+        android:title="Новосибирск"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Voronezh"
+        android:title="Воронеж"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Khabarovsk"
+        android:title="Хабаровск"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Sevastopol"
+        android:title="Севастополь"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Anadyr"
+        android:title="Анадырь"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Tyumen"
+        android:title="Тюмень"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/auto"
+        android:title="Автоматическое определение"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/auto_search" />
 </menu>

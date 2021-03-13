@@ -30,17 +30,7 @@ import retrofit2.Response;
 import ru.same.weather.api.PostWeather;
 
 public class MainActivity extends AppCompatActivity {
-    //Penza 511565
-    //Moscow 524894
-    //St. Petersburg 536203
-    //Kazan 551487
-    //Novosibirsk 1496747
-    //Voronezh 472045
-    //Khabarovsk 2022890
-    //Sevastopol 694423
-    //Anadyr 2127202
-    //Tyumen 1488754
-//    private Map<String, Integer> regMaps;
+
 
     private String id;
     private PostWeather postWeather;
@@ -49,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView humidity;
     private TextView description;
     private ImageView image;
+    private TextView town;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,41 +48,32 @@ public class MainActivity extends AppCompatActivity {
         //Добавляем toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // TODO: 13.03.2021 загружать прошлый выбор региона
+        //Стандартный выбор - Пенза
         id = "511565";
-        //Создаём словарь городов
-//        regMaps = new HashMap<>();
-//        regMaps.put("Пенза", 511565);
-//        regMaps.put("Москва", 524894);
-//        regMaps.put("Санкт-Петербург", 536203);
-//        regMaps.put("Казань", 551487);
-//        regMaps.put("Новосибирск", 1496747);
-//        regMaps.put("Воронеж", 472045);
-//        regMaps.put("Хабаровск", 2022890);
-//        regMaps.put("Севастополь", 694423);
-//        regMaps.put("Анадырь", 2127202);
-//        regMaps.put("Тюмень", 1488754);
+        //Инициализируем view
         temp = findViewById(R.id.temp);
         wind = findViewById(R.id.wind);
         humidity = findViewById(R.id.humidity);
         description = findViewById(R.id.des);
         image = findViewById(R.id.im);
-        temp.setText("Загружаем данные...");
-        description.setVisibility(View.INVISIBLE);
-        wind.setVisibility(View.INVISIBLE);
-        humidity.setVisibility(View.INVISIBLE);
-        image.setVisibility(View.INVISIBLE);
+        town = findViewById(R.id.town);
+        //Получаем разрешение на использование интернета
         int permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET);
-
         if (permissionStatus != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET},
                     1);
-        } else getData();
+        } else getData();//Получаем данные
 
 
     }
 
     public void getData() {
+        temp.setText("Загружаем данные...");
+        description.setVisibility(View.INVISIBLE);
+        wind.setVisibility(View.INVISIBLE);
+        humidity.setVisibility(View.INVISIBLE);
+        image.setVisibility(View.INVISIBLE);
+        town.setVisibility(View.INVISIBLE);
         App.getWeatherApi().getData(id, App.getUNITS(), App.getLANG(), App.getKEY()).enqueue(new Callback<PostWeather>() {
             @Override
             public void onResponse(Call<PostWeather> call, Response<PostWeather> response) {
@@ -169,10 +151,12 @@ public class MainActivity extends AppCompatActivity {
                 wind.setText("Скорость ветра: " + postWeather.getWind().getSpeed() + " м/с");
                 humidity.setText("Влажность: " + postWeather.getMain().getHumidity() + "%");
                 description.setText(postWeather.getWeather().get(0).getDescription().substring(0, 1).toUpperCase() + postWeather.getWeather().get(0).getDescription().substring(1));
+                town.setText(postWeather.getName());
                 description.setVisibility(View.VISIBLE);
                 wind.setVisibility(View.VISIBLE);
                 humidity.setVisibility(View.VISIBLE);
                 image.setVisibility(View.VISIBLE);
+                town.setVisibility(View.VISIBLE);
             }
         });
 
@@ -186,13 +170,54 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    //Penza 511565
+    //Moscow 524894
+    //St. Petersburg 536203
+    //Kazan 551487
+    //Novosibirsk 1496747
+    //Voronezh 472045
+    //Khabarovsk 2022890
+    //Sevastopol 694423
+    //Anadyr 2127202
+    //Tyumen 1488754
     //Слушатель нажатий на элементы меню
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.chooseReg) {
-            //Переход на активность выбора региона
+        //Выбор региона
+        switch (id) {
+            case R.id.Penza:
+                this.id = "511565";
+                break;
+            case R.id.Moscow:
+                this.id = "524894";
+                break;
+            case R.id.Petersburg:
+                this.id = "536203";
+                break;
+            case R.id.Kazan:
+                this.id = "551487";
+                break;
+            case R.id.Novosibirsk:
+                this.id = "1496747";
+                break;
+            case R.id.Voronezh:
+                this.id = "472045";
+                break;
+            case R.id.Khabarovsk:
+                this.id = "2022890";
+                break;
+            case R.id.Sevastopol:
+                this.id = "694423";
+                break;
+            case R.id.Anadyr:
+                this.id = "2127202";
+                break;
+            case R.id.Tyumen:
+                this.id = "1488754";
+                break;
         }
+        getData();
         return super.onOptionsItemSelected(item);
     }
 }
