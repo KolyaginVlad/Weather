@@ -6,5 +6,5 @@
     <item
         android:id="@+id/chooseReg"
         android:title="@string/reg"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 </menu>

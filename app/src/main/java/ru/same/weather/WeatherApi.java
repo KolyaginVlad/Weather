@@ -8,6 +8,6 @@ import ru.same.weather.api.PostWeather;
 
 public interface WeatherApi {
     @GET("/data/2.5/weather")
-    Call<PostWeather> getData(@Query("id") String id, @Query("units") String units, @Query("appid") String key);
+    Call<PostWeather> getData(@Query("id") String id, @Query("units") String units, @Query("lang") String language, @Query("appid") String key);
 
 }

@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getData() {
-        App.getWeatherApi().getData(id, App.getUNITS(), App.getKEY()).enqueue(new Callback<PostWeather>() {
+        App.getWeatherApi().getData(id, App.getUNITS(), App.getLANG(), App.getKEY()).enqueue(new Callback<PostWeather>() {
             @Override
             public void onResponse(Call<PostWeather> call, Response<PostWeather> response) {
                 postWeather = response.body();
@@ -165,10 +165,10 @@ public class MainActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                temp.setText(postWeather.getMain().getTemp() + "°C");
-                wind.setText(postWeather.getWind().getSpeed() + " м/с");
-                humidity.setText(postWeather.getMain().getHumidity() + "%");
-                description.setText(postWeather.getWeather().get(0).getDescription());
+                temp.setText("Температура: " + postWeather.getMain().getTemp() + "°C");
+                wind.setText("Скорость ветра: " + postWeather.getWind().getSpeed() + " м/с");
+                humidity.setText("Влажность: " + postWeather.getMain().getHumidity() + "%");
+                description.setText(postWeather.getWeather().get(0).getDescription().substring(0, 1).toUpperCase() + postWeather.getWeather().get(0).getDescription().substring(1));
                 description.setVisibility(View.VISIBLE);
                 wind.setVisibility(View.VISIBLE);
                 humidity.setVisibility(View.VISIBLE);

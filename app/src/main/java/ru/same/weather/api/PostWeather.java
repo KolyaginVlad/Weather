@@ -1,4 +1,3 @@
-
 package ru.same.weather.api;
 
 import com.google.gson.annotations.Expose;

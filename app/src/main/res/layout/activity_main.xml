@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
 
     <include
-        layout="@layout/toolbar"
-        android:id="@+id/toolbar" />
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <TextView
         android:id="@+id/temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="20 C"
-        android:textStyle="bold"
-        android:textSize="40dp"
-        android:textColor="@color/black"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/merriweather_bold"
+        android:text="20 C"
+        android:textColor="@color/black"
+        android:textSize="40dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
@@ -34,48 +34,47 @@
         app:layout_constraintTop_toBottomOf="@id/temp" />
 
     <TextView
+        android:id="@+id/humidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/humidity"
-        android:text="80%"
-        android:textStyle="bold"
-        android:textSize="30dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="16dp"
+        android:text="80%"
+        android:textSize="25dp"
+        android:fontFamily="@font/merriweather_bold"
         app:layout_constraintLeft_toRightOf="@id/im"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/im" />
     />
 
     <TextView
+        android:id="@+id/wind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/wind"
-        android:text="20 м/с ЮВ"
-        android:textStyle="bold"
-        android:textSize="30dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintLeft_toRightOf="@id/im"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/im" />
+        android:layout_marginRight="16dp"
+        android:text="20 м/с ЮВ"
+        android:textSize="25dp"
+        android:fontFamily="@font/merriweather_bold"
+        app:layout_constraintTop_toBottomOf="@id/im"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
     />
 
     <TextView
+        android:id="@+id/des"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/des"
-        android:text="Ясно"
-        android:textStyle="bold"
-        android:textSize="30dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
+        android:text="Ясно"
+        android:textSize="25dp"
+        android:fontFamily="@font/merriweather_bold"
+        app:layout_constraintBottom_toBottomOf="@id/im"
         app:layout_constraintLeft_toRightOf="@id/im"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/wind"
-        app:layout_constraintTop_toBottomOf="@+id/humidity" />
+        app:layout_constraintRight_toRightOf="parent" />
     />
 </androidx.constraintlayout.widget.ConstraintLayout>
