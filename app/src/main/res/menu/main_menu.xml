@@ -45,7 +45,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/auto"
-        android:title="Автоматическое определение"
+        android:title="Автоматически"
         app:showAsAction="ifRoom"
         android:icon="@drawable/auto_search" />
 </menu>

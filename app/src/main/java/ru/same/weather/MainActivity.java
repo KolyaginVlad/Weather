@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         } else getData();//Получаем данные
         lat = null;
         lon = null;
+        //Смотрим координаты
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //Загружаем данные по автоматически определённым координатам
     public void getDataWithAuto() {
         if (lat != null && lon != null) {
             temp.setText("Загружаем данные...");
