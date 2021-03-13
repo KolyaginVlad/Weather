@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
         //Добавляем toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
     }
     //Добавляем меню
     @Override
