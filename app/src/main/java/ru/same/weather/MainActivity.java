@@ -4,6 +4,9 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,7 +21,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import java.io.IOException;
 
@@ -40,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView description;
     private ImageView image;
     private TextView town;
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+    private String lat;
+    private String lon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +64,35 @@ public class MainActivity extends AppCompatActivity {
         image = findViewById(R.id.im);
         town = findViewById(R.id.town);
         //Получаем разрешение на использование интернета
-        int permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET);
-        if (permissionStatus != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET},
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     1);
         } else getData();//Получаем данные
+        lat = null;
+        lon = null;
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                lat = String.valueOf(location.getLatitude());
+                lon = String.valueOf(location.getLongitude());
+                locationManager.removeUpdates(locationListener);
+            }
 
+            @Override
+            public void onProviderEnabled(String provider) {
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                lat = String.valueOf(locationManager.getLastKnownLocation(provider).getLatitude());
+                lon = String.valueOf(locationManager.getLastKnownLocation(provider).getLongitude());
+                locationManager.removeUpdates(locationListener);
+            }
+        };
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER, 1000 * 10, 10,
+                locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000 * 10, 10, locationListener);
 
     }
 
@@ -90,6 +119,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void getDataWithAuto() {
+        if (lat != null && lon != null) {
+            temp.setText("Загружаем данные...");
+            description.setVisibility(View.INVISIBLE);
+            wind.setVisibility(View.INVISIBLE);
+            humidity.setVisibility(View.INVISIBLE);
+            image.setVisibility(View.INVISIBLE);
+            town.setVisibility(View.INVISIBLE);
+            App.getWeatherApi().getData(lat, lon, App.getUNITS(), App.getLANG(), App.getKEY()).enqueue(new Callback<PostWeather>() {
+                @Override
+                public void onResponse(Call<PostWeather> call, Response<PostWeather> response) {
+                    postWeather = response.body();
+                    temp.setText("Скачиваем изображение...");
+                    setImage();
+                }
+
+                @Override
+                public void onFailure(Call<PostWeather> call, Throwable t) {
+                    Toast.makeText(MainActivity.this, "An error occurred during networking", Toast.LENGTH_SHORT).show();
+                    t.printStackTrace();
+                }
+            });
+        } else {
+            Toast.makeText(this, "Ваше местоположение не распознано, повторите через несколько секунд", Toast.LENGTH_LONG).show();
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -99,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                     // permission granted
                     getData();
                 } else {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET},
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                             1);
                 }
                 return;
@@ -188,36 +244,50 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.Penza:
                 this.id = "511565";
+                getData();
                 break;
             case R.id.Moscow:
                 this.id = "524894";
+                getData();
                 break;
             case R.id.Petersburg:
                 this.id = "536203";
+                getData();
                 break;
             case R.id.Kazan:
                 this.id = "551487";
+                getData();
                 break;
             case R.id.Novosibirsk:
                 this.id = "1496747";
+                getData();
                 break;
             case R.id.Voronezh:
                 this.id = "472045";
+                getData();
                 break;
             case R.id.Khabarovsk:
                 this.id = "2022890";
+                getData();
                 break;
             case R.id.Sevastopol:
                 this.id = "694423";
+                getData();
                 break;
             case R.id.Anadyr:
                 this.id = "2127202";
+                getData();
                 break;
             case R.id.Tyumen:
                 this.id = "1488754";
+                getData();
+                break;
+            case R.id.auto:
+                getDataWithAuto();
                 break;
         }
-        getData();
+
         return super.onOptionsItemSelected(item);
     }
+
 }
