@@ -1,9 +1,6 @@
 package ru.same.weather;
 
-import android.Manifest;
 import android.app.Application;
-
-import androidx.core.content.ContextCompat;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -39,7 +36,6 @@ public class App extends Application {
                 .addConverterFactory(GsonConverterFactory.create())//добавляем конвертор
                 .build();
         weatherApi = retrofit.create(WeatherApi.class);
-        int permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
 
     }
 
