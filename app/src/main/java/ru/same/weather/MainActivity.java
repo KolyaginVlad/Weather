@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
     private TextView description;
     private ImageView image;
     private TextView town;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         description = findViewById(R.id.des);
         image = findViewById(R.id.im);
         town = findViewById(R.id.town);
+        progressBar = findViewById(R.id.proBar);
         Location location = new Location((LocationManager) getSystemService(LOCATION_SERVICE), getApplicationContext());
         presenter = new Presenter(this, location);
         //Получаем разрешение на использование интернета
@@ -149,17 +152,13 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
 
     @Override
     public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
 
     }
 
     @Override
     public void hideProgressBar() {
-
-    }
-
-    @Override
-    public void updateProgressBar() {
-
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override

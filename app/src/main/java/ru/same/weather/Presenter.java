@@ -51,7 +51,6 @@ public class Presenter {
 
     //Скачиваем изображение и показываем его
     private void setImage() {
-        view.updateProgressBar();
         OkHttpClient client = new OkHttpClient();
         Log.d("id", "https://openweathermap.org/img/wn/" + postWeather.getWeather().get(0).getIcon() + "@2x.png");
         Request request = new Request.Builder()
@@ -115,8 +114,6 @@ public class Presenter {
         void showProgressBar();
 
         void hideProgressBar();
-
-        void updateProgressBar();
 
         void hideViews();
 
