@@ -48,31 +48,44 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
         image = findViewById(R.id.im);
         town = findViewById(R.id.town);
         progressBar = findViewById(R.id.proBar);
-        Location location = new Location((LocationManager) getSystemService(LOCATION_SERVICE), getApplicationContext());
-        presenter = new Presenter(this, location);
+        Location location;
         //Получаем разрешение на использование интернета
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET,
-                            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
                     1);
-        } else presenter.getData();//Получаем данные
+        } else {
+            location = new Location((LocationManager) getSystemService(LOCATION_SERVICE),
+                    getApplicationContext());
+            presenter = new Presenter(this, location);
+            presenter.getData();//Получаем данные
 
-
+        }
     }
 
     // Получаем подтверждение до того момента пока пользователь их не выдаст
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         switch (requestCode) {
             case 1:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Location location =
+                            new Location((LocationManager) getSystemService(LOCATION_SERVICE),
+                                    getApplicationContext());
+                    presenter = new Presenter(this, location);
                     presenter.getData();
                 } else {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET,
-                                    Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                            1);
+                    ActivityCompat
+                            .requestPermissions(this, new String[]{Manifest.permission.INTERNET,
+                                            Manifest.permission.ACCESS_FINE_LOCATION,
+                                            Manifest.permission.ACCESS_COARSE_LOCATION},
+                                    1);
                 }
                 return;
         }
@@ -199,7 +212,9 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
                 temp.setText("Температура: " + postWeather.getMain().getTemp() + "°C");
                 wind.setText("Скорость ветра: " + postWeather.getWind().getSpeed() + " м/с");
                 humidity.setText("Влажность: " + postWeather.getMain().getHumidity() + "%");
-                description.setText(postWeather.getWeather().get(0).getDescription().substring(0, 1).toUpperCase() + postWeather.getWeather().get(0).getDescription().substring(1));
+                description.setText(postWeather.getWeather().get(0).getDescription().substring(0, 1)
+                        .toUpperCase() + postWeather.getWeather().get(0).getDescription()
+                        .substring(1));
                 town.setText(postWeather.getName());
             }
         });
@@ -218,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements Presenter.View {
 
     @Override
     public void sayRepeat() {
-        Toast.makeText(this, "Ваше местоположение не распознано, повторите через несколько секунд", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Ваше местоположение не распознано, повторите через несколько секунд",
+                Toast.LENGTH_LONG).show();
     }
 }

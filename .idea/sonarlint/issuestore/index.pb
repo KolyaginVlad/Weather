@@ -60,3 +60,7 @@ a
 1app/src/main/java/ru/same/weather/WeatherApi.java,0\3\03ba9230e30b8c42f6d2e2e05084a32c1ec22a04
 c
 3app/src/main/java/ru/same/weather/MainActivity.java,3\1\31c5dd8b61a9b130348eda91645a609955a3732b
+`
+0app/src/main/java/ru/same/weather/Presenter.java,c\9\c9f052e33603a6e2cde5b3dacc7427045eaaf16b
+_
+/app/src/main/java/ru/same/weather/Location.java,d\9\d9f843dcc2cf62302e01d4041097179a82c5b854
